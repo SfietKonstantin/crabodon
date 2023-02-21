@@ -1,0 +1,9 @@
+[package]
+name = "crabodon"
+version = "0.1.0"
+edition = "2018"
+
+[dependencies]
+html5ever = "0.26"
+kuchiki = "0.8"
+url = "2.3"
