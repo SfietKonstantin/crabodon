@@ -4,6 +4,9 @@ version = "0.1.0"
 edition = "2018"
 
 [dependencies]
+chrono = { version = "0.4", features = ["serde"] }
 html5ever = "0.26"
+pretend = "0.4.0"
+serde = { version = "1.0", features = ["derive"] }
 kuchiki = "0.8"
 url = "2.3"

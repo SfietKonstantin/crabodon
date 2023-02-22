@@ -7,7 +7,8 @@
 //! Mastodon status content content is written in HTML, and HTML is notoriously hard to parse
 //! correctly. `crabodon` ships the [`content`] module to help dealing with them.
 
-#![warn(missing_docs)]
+// #![warn(missing_docs)]
 #![forbid(unsafe_code)]
 
 pub mod content;
+pub mod rest;
