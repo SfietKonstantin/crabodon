@@ -1,0 +1,11 @@
+[package]
+name = "crabodon-msrv-check"
+version = "0.0.0"
+edition = "2018"
+
+[dependencies]
+crabodon = { path = "../../crabodon" }
+
+once_cell = "=1.14.0"
+
+[workspace]

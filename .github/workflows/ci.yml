@@ -32,6 +32,19 @@ jobs:
 
       - run: cargo test
 
+  test-msrv-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: "1.52.1"
+          default: true
+
+      - run: cd tests/msrv-check && cargo build
+
   analyze:
     runs-on: ubuntu-latest
     steps:
