@@ -1,8 +1,8 @@
 pub use pretend::{Json, Result};
 
+use chrono::{DateTime, Utc};
 use pretend::pretend;
 use serde::{Deserialize, Serialize};
-use chrono::{DateTime, Utc};
 
 /// Represents a user of Mastodon and their associated profile
 ///
@@ -49,7 +49,7 @@ pub struct Account {
     /// Whether the account has opted into discovery features such as the profile directory
     pub discoverable: Option<bool>,
     /// Whether the local user has opted out of being indexed by search engines
-    pub noindex: Option< bool>,
+    pub noindex: Option<bool>,
     /// Indicates that the profile is currently inactive and that its user has moved to a new
     /// account
     pub moved: Option<Box<Account>>,
@@ -233,9 +233,6 @@ pub struct Token {
     pub created_at: i64,
 }
 
-
-
-
 #[derive(Debug, Serialize)]
 pub struct ApplicationBody {
     client_name: String,
@@ -346,6 +343,213 @@ pub trait MastodonAuthApi {
     async fn post_token(&self, json: TokenBody) -> Result<Json<Token>>;
 }
 
+#[derive(Debug, Default, Serialize)]
+pub struct PublicTimelineQuery {
+    local: Option<bool>,
+    remote: Option<bool>,
+    only_media: Option<bool>,
+    max_id: Option<String>,
+    since_id: Option<String>,
+    min_id: Option<String>,
+    limit: Option<i32>,
+}
+
+impl PublicTimelineQuery {
+    /// Constructor
+    pub fn new(
+        local: Option<bool>,
+        remote: Option<bool>,
+        only_media: Option<bool>,
+        max_id: Option<String>,
+        since_id: Option<String>,
+        min_id: Option<String>,
+        limit: Option<i32>,
+    ) -> Self {
+        PublicTimelineQuery {
+            local,
+            remote,
+            only_media,
+            max_id,
+            since_id,
+            min_id,
+            limit,
+        }
+    }
+
+    pub fn with_local(mut self, local: bool) -> Self {
+        self.local = Some(local);
+        self
+    }
+
+    pub fn with_remote(mut self, remote: bool) -> Self {
+        self.remote = Some(remote);
+        self
+    }
+
+    pub fn with_only_media(mut self, only_media: bool) -> Self {
+        self.only_media = Some(only_media);
+        self
+    }
+
+    pub fn with_max_id(mut self, max_id: String) -> Self {
+        self.max_id = Some(max_id);
+        self
+    }
+
+    pub fn with_since_id(mut self, since_id: String) -> Self {
+        self.since_id = Some(since_id);
+        self
+    }
+
+    pub fn with_min_id(mut self, min_id: String) -> Self {
+        self.min_id = Some(min_id);
+        self
+    }
+
+    pub fn with_limit(mut self, limit: i32) -> Self {
+        self.limit = Some(limit);
+        self
+    }
+}
+
+#[derive(Debug, Default, Serialize)]
+pub struct HashtagTimelineQuery {
+    any: Option<Vec<String>>,
+    all: Option<Vec<String>>,
+    none: Option<Vec<String>>,
+    local: Option<bool>,
+    remote: Option<bool>,
+    only_media: Option<bool>,
+    max_id: Option<String>,
+    since_id: Option<String>,
+    min_id: Option<String>,
+    limit: Option<i32>,
+}
+
+impl HashtagTimelineQuery {
+    /// Constructor
+    pub fn new(
+        any: Option<Vec<String>>,
+        all: Option<Vec<String>>,
+        none: Option<Vec<String>>,
+        local: Option<bool>,
+        remote: Option<bool>,
+        only_media: Option<bool>,
+        max_id: Option<String>,
+        since_id: Option<String>,
+        min_id: Option<String>,
+        limit: Option<i32>,
+    ) -> Self {
+        HashtagTimelineQuery {
+            any,
+            all,
+            none,
+            local,
+            remote,
+            only_media,
+            max_id,
+            since_id,
+            min_id,
+            limit,
+        }
+    }
+
+    pub fn with_any(mut self, any: Vec<String>) -> Self {
+        self.any = Some(any);
+        self
+    }
+
+    pub fn with_all(mut self, all: Vec<String>) -> Self {
+        self.all = Some(all);
+        self
+    }
+
+    pub fn with_none(mut self, none: Vec<String>) -> Self {
+        self.none = Some(none);
+        self
+    }
+
+    pub fn with_local(mut self, local: bool) -> Self {
+        self.local = Some(local);
+        self
+    }
+
+    pub fn with_remote(mut self, remote: bool) -> Self {
+        self.remote = Some(remote);
+        self
+    }
+
+    pub fn with_only_media(mut self, only_media: bool) -> Self {
+        self.only_media = Some(only_media);
+        self
+    }
+
+    pub fn with_max_id(mut self, max_id: String) -> Self {
+        self.max_id = Some(max_id);
+        self
+    }
+
+    pub fn with_since_id(mut self, since_id: String) -> Self {
+        self.since_id = Some(since_id);
+        self
+    }
+
+    pub fn with_min_id(mut self, min_id: String) -> Self {
+        self.min_id = Some(min_id);
+        self
+    }
+
+    pub fn with_limit(mut self, limit: i32) -> Self {
+        self.limit = Some(limit);
+        self
+    }
+}
+
+#[derive(Debug, Default, Serialize)]
+pub struct TimelineQuery {
+    max_id: Option<String>,
+    since_id: Option<String>,
+    min_id: Option<String>,
+    limit: Option<i32>,
+}
+
+impl TimelineQuery {
+    /// Constructor
+    pub fn new(
+        max_id: Option<String>,
+        since_id: Option<String>,
+        min_id: Option<String>,
+        limit: Option<i32>,
+    ) -> Self {
+        TimelineQuery {
+            max_id,
+            since_id,
+            min_id,
+            limit,
+        }
+    }
+
+    pub fn with_max_id(mut self, max_id: String) -> Self {
+        self.max_id = Some(max_id);
+        self
+    }
+
+    pub fn with_since_id(mut self, since_id: String) -> Self {
+        self.since_id = Some(since_id);
+        self
+    }
+
+    pub fn with_min_id(mut self, min_id: String) -> Self {
+        self.min_id = Some(min_id);
+        self
+    }
+
+    pub fn with_limit(mut self, limit: i32) -> Self {
+        self.limit = Some(limit);
+        self
+    }
+}
+
 /// Mastodon REST API
 ///
 /// This pretend-extended trait implements (some) Mastodon
@@ -356,7 +560,29 @@ pub trait MastodonApi {
     ///
     /// Cf https://docs.joinmastodon.org/methods/timelines/#public
     #[request(method = "GET", path = "/api/v1/timelines/public")]
-    async fn get_public_timeline(&self) -> Result<Json<Vec<Status>>>;
+    async fn get_public_timeline(&self, query: PublicTimelineQuery) -> Result<Json<Vec<Status>>>;
+
+    /// View public statuses containing the given hashtag
+    ///
+    /// Cf https://docs.joinmastodon.org/methods/timelines/#tag
+    #[request(method = "GET", path = "/api/v1/timelines/tag/{hashtag}")]
+    async fn get_hashtag_timeline(&self, hashtag: String) -> Result<Json<Vec<Status>>>;
+
+    /// View statuses from followed users
+    ///
+    /// Cf https://docs.joinmastodon.org/methods/timelines/#home
+    #[request(method = "GET", path = "/api/v1/timelines/home")]
+    async fn get_home_timeline(&self, query: TimelineQuery) -> Result<Json<Vec<Status>>>;
+
+    /// View statuses in the given list timeline
+    ///
+    /// Cf https://docs.joinmastodon.org/methods/timelines/#list
+    #[request(method = "GET", path = "/api/v1/timelines/list/{list_id}")]
+    async fn get_list_timeline(
+        &self,
+        list_id: String,
+        query: TimelineQuery,
+    ) -> Result<Json<Vec<Status>>>;
 
     /// View a single status
     ///
